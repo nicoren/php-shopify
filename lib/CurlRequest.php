@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -19,6 +20,7 @@ use PHPShopify\Exception\ResourceRateLimitException;
 | This class handles get, post, put, delete HTTP requests
 |
 */
+
 class CurlRequest
 {
     /**
@@ -65,7 +67,6 @@ class CurlRequest
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         return $ch;
-
     }
 
     /**
@@ -180,5 +181,4 @@ class CurlRequest
 
         return $response->getBody();
     }
-
 }

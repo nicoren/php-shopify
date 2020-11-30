@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -22,6 +23,7 @@ use Psr\Http\Message\ResponseInterface;
 | This class handles get, post, put, delete and any other custom actions for the API
 |
 */
+
 abstract class ShopifyResource
 {
     /**
@@ -29,14 +31,8 @@ abstract class ShopifyResource
      *
      * @var array
      */
-    protected $httpHeaders = array();
+    protected $httpHeaders = [];
 
-    /**
-     * HTTP response headers of last executed request
-     *
-     * @var array
-     */
-    public static $lastHttpResponseHeaders = array();
 
     /**
      * The base URL of the API Resource (excluding the '.json' extension).
@@ -62,7 +58,7 @@ abstract class ShopifyResource
      *
      * @var array
      */
-    protected $childResource = array();
+    protected $childResource = [];
 
     /**
      * If search is enabled for the resource
@@ -99,10 +95,10 @@ abstract class ShopifyResource
      * @var array $customPutActions
      * @var array $customDeleteActions
      */
-    protected $customGetActions = array();
-    protected $customPostActions = array();
-    protected $customPutActions = array();
-    protected $customDeleteActions = array();
+    protected $customGetActions = [];
+    protected $customPostActions = [];
+    protected $customPutActions = [];
+    protected $customDeleteActions = [];
 
     /**
      * The ID of the resource
@@ -111,7 +107,7 @@ abstract class ShopifyResource
      *
      * @var integer
      */
-    public $id;
+    protected $id;
 
     /**
      * Create a new Shopify API resource instance.
@@ -129,6 +125,8 @@ abstract class ShopifyResource
      */
     private $nextLink = null;
 
+    private $sdk;
+
     /**
      * Response Header Link, used for pagination
      * @see: https://help.shopify.com/en/api/guides/paginated-rest-results?utm_source=exacttarget&utm_medium=email&utm_campaign=api_deprecation_notice_1908
@@ -136,17 +134,18 @@ abstract class ShopifyResource
      */
     private $prevLink = null;
 
-    public function __construct($id = null, $parentResourceUrl = '')
+    public function __construct(ShopifySDK $sdk, $id = null, $parentResourceUrl = '')
     {
         $this->id = $id;
 
-        $config = ShopifySDK::$config;
+        $config = $sdk->getConfig();
+        $this->sdk = $sdk;
 
-        $this->resourceUrl = ($parentResourceUrl ? $parentResourceUrl . '/' :  $config['ApiUrl']) . $this->getResourcePath() . ($this->id ? '/' . $this->id : '');
+        $this->resourceUrl = ($parentResourceUrl ? $parentResourceUrl . '/' :  $config->getApiUrl()) . $this->getResourcePath() . ($this->id ? '/' . $this->id : '');
 
-        if (isset($config['AccessToken'])) {
-            $this->httpHeaders['X-Shopify-Access-Token'] = $config['AccessToken'];
-        } elseif (!isset($config['ApiKey']) || !isset($config['Password'])) {
+        if ($config->hasConfig('AccessToken')) {
+            $this->httpHeaders['X-Shopify-Access-Token'] = $config->getConfig('AccessToken');
+        } elseif (!$config->hasConfig('ApiKey') || !$config->hasConfig('Password')) {
             throw new SdkException("Either AccessToken or ApiKey+Password Combination (in case of private API) is required to access the resources. Please check SDK configuration!");
         }
     }
@@ -212,7 +211,7 @@ abstract class ShopifyResource
                 'post'  =>  'customPostActions',
                 'put'   =>  'customPutActions',
                 'get'   =>  'customGetActions',
-                'delete'=>  'customDeleteActions',
+                'delete' =>  'customDeleteActions',
             );
 
             //Get the array key for the action in the actions array
@@ -231,12 +230,12 @@ abstract class ShopifyResource
 
 
             //Get the first argument if provided with the method call
-            $methodArgument = !empty($arguments) ? $arguments[0] : array();
+            $methodArgument = !empty($arguments) ? $arguments[0] : [];
 
             //Url parameters
-            $urlParams = array();
+            $urlParams = [];
             //Data body
-            $dataArray = array();
+            $dataArray = [];
 
             //Consider the argument as url parameters for get and delete request
             //and data array for post and put request
@@ -311,7 +310,7 @@ abstract class ShopifyResource
      *
      * @return string
      */
-    public function generateUrl($urlParams = array(), $customAction = null)
+    public function generateUrl($urlParams = [], $customAction = null)
     {
         return $this->resourceUrl . ($customAction ? "/$customAction" : '') . '.json' . (!empty($urlParams) ? '?' . http_build_query($urlParams) : '');
     }
@@ -330,16 +329,16 @@ abstract class ShopifyResource
      *
      * @return array
      */
-    public function get($urlParams = array(), $url = null, $dataKey = null)
+    public function get($urlParams = [], $url = null, $dataKey = null)
     {
         if (!$url) $url  = $this->generateUrl($urlParams);
+        $client = new GuzzleClient($this->sdk->getConfig());
 
-        $response = HttpRequestJson::get($url, $this->httpHeaders);
+        $response = $client->get($url, $this->httpHeaders);
 
         if (!$dataKey) $dataKey = $this->id ? $this->resourceKey : $this->pluralizeKey();
 
         return $this->processResponse($response, $dataKey);
-
     }
 
     /**
@@ -353,7 +352,7 @@ abstract class ShopifyResource
      *
      * @return integer
      */
-    public function count($urlParams = array())
+    public function count($urlParams = [])
     {
         if (!$this->countEnabled) {
             throw new SdkException("Count is not available for " . $this->getResourceName());
@@ -361,7 +360,7 @@ abstract class ShopifyResource
 
         $url = $this->generateUrl($urlParams, 'count');
 
-        return $this->get(array(), $url, 'count');
+        return $this->get([], $url, 'count');
     }
 
     /**
@@ -385,7 +384,7 @@ abstract class ShopifyResource
 
         $url = $this->generateUrl($query, 'search');
 
-        return $this->get(array(), $url);
+        return $this->get([], $url);
     }
 
     /**
@@ -408,7 +407,9 @@ abstract class ShopifyResource
 
         if ($wrapData && !empty($dataArray)) $dataArray = $this->wrapData($dataArray);
 
-        $response = HttpRequestJson::post($url, $dataArray, $this->httpHeaders);
+        $client = new GuzzleClient($this->sdk->getConfig());
+
+        $response = $client->post($url, $dataArray, $this->httpHeaders);
 
         return $this->processResponse($response, $this->resourceKey);
     }
@@ -434,7 +435,9 @@ abstract class ShopifyResource
 
         if ($wrapData && !empty($dataArray)) $dataArray = $this->wrapData($dataArray);
 
-        $response = HttpRequestJson::put($url, $dataArray, $this->httpHeaders);
+        $client = new GuzzleClient($this->sdk->getConfig());
+
+        $response = $client->put($url, $dataArray, $this->httpHeaders);
 
         return $this->processResponse($response, $this->resourceKey);
     }
@@ -452,11 +455,13 @@ abstract class ShopifyResource
      *
      * @return array an empty array will be returned if the request is successfully completed
      */
-    public function delete($urlParams = array(), $url = null)
+    public function delete($urlParams = [], $url = null)
     {
         if (!$url) $url = $this->generateUrl($urlParams);
 
-        $response = HttpRequestJson::delete($url, $this->httpHeaders);
+        $client = new GuzzleClient($this->sdk->getConfig());
+
+        $response = $client->delete($url, $this->httpHeaders);
 
         return $this->processResponse($response);
     }
@@ -487,7 +492,7 @@ abstract class ShopifyResource
      */
     protected function castString($array)
     {
-        if ( ! is_array($array)) return (string) $array;
+        if (!is_array($array)) return (string) $array;
 
         $string = '';
         $i = 0;
@@ -516,31 +521,26 @@ abstract class ShopifyResource
      *
      * @return array
      */
-    public function processResponse($responseArray, $dataKey = null)
+    public function processResponse(\Psr\Http\Message\ResponseInterface $response, $dataKey = null)
     {
-        self::$lastHttpResponseHeaders = CurlRequest::$lastHttpResponseHeaders;
+        $lastResponseHeaders = $response->getHeaders();
 
-        if ($responseArray === null) {
-            //Something went wrong, Checking HTTP Codes
-            $httpOK = 200; //Request Successful, OK.
-            $httpCreated = 201; //Create Successful.
-            $httpDeleted = 204; //Delete Successful
+        $successHttpCodes = [200, 201, 204];
 
-            //should be null if any other library used for http calls
-            $httpCode = CurlRequest::$lastHttpCode;
+        //should be null if any other library used for http calls
+        $httpCode = $response->getStatusCode();
 
-            if ($httpCode != null && $httpCode != $httpOK && $httpCode != $httpCreated && $httpCode != $httpDeleted) {
-                throw new Exception\CurlException("Request failed with HTTP Code $httpCode.", $httpCode);
-            }
+        if ($httpCode != null && !in_array($httpCode, $successHttpCodes)) {
+            throw new Exception\CurlException("Request failed with HTTP Code $httpCode.", $httpCode);
         }
 
-        $lastResponseHeaders = CurlRequest::$lastHttpResponseHeaders;
-        $this->getLinks($lastResponseHeaders);
 
+        $this->getLinks($lastResponseHeaders);
+        $responseArray = json_decode($response->getBody(), true);
         if (isset($responseArray['errors'])) {
             $message = $this->castString($responseArray['errors']);
 
-            throw new ApiException($message, CurlRequest::$lastHttpCode);
+            throw new ApiException($message, $httpCode);
         }
 
         if ($dataKey && isset($responseArray[$dataKey])) {
@@ -550,27 +550,31 @@ abstract class ShopifyResource
         }
     }
 
-    public function getLinks($responseHeaders){
-        $this->nextLink = $this->getLink($responseHeaders,'next');
-        $this->prevLink = $this->getLink($responseHeaders,'previous');
+    public function getLinks($responseHeaders)
+    {
+        $this->nextLink = $this->getLink($responseHeaders, 'next');
+        $this->prevLink = $this->getLink($responseHeaders, 'previous');
     }
 
-    public function getLink($responseHeaders, $type='next'){
+    public function getLink($responseHeaders, $type = 'next')
+    {
 
-        if(array_key_exists('x-shopify-api-version', $responseHeaders)
-            && $responseHeaders['x-shopify-api-version'] < '2019-07'){
+        if (
+            array_key_exists('x-shopify-api-version', $responseHeaders)
+            && $responseHeaders['x-shopify-api-version'] < '2019-07'
+        ) {
             return null;
         }
 
-        if(!empty($responseHeaders['link'])) {
-            if (stristr($responseHeaders['link'], '; rel="'.$type.'"') > -1) {
+        if (!empty($responseHeaders['link'])) {
+            if (stristr($responseHeaders['link'], '; rel="' . $type . '"') > -1) {
                 $headerLinks = explode(',', $responseHeaders['link']);
                 foreach ($headerLinks as $headerLink) {
-                    if (stristr($headerLink, '; rel="'.$type.'"') === -1) {
+                    if (stristr($headerLink, '; rel="' . $type . '"') === -1) {
                         continue;
                     }
 
-                    $pattern = '#<(.*?)>; rel="'.$type.'"#m';
+                    $pattern = '#<(.*?)>; rel="' . $type . '"#m';
                     preg_match($pattern, $headerLink, $linkResponseHeaders);
                     if ($linkResponseHeaders) {
                         return $linkResponseHeaders[1];
@@ -582,15 +586,18 @@ abstract class ShopifyResource
         return null;
     }
 
-    public function getPrevLink(){
+    public function getPrevLink()
+    {
         return $this->prevLink;
     }
 
-    public function getNextLink(){
+    public function getNextLink()
+    {
         return $this->nextLink;
     }
 
-    public function getUrlParams($url) {
+    public function getUrlParams($url)
+    {
         if ($url) {
             $parts = parse_url($url);
             return $parts['query'];
@@ -598,13 +605,15 @@ abstract class ShopifyResource
         return '';
     }
 
-    public function getNextPageParams(){
+    public function getNextPageParams()
+    {
         $nextPageParams = [];
         parse_str($this->getUrlParams($this->getNextLink()), $nextPageParams);
         return $nextPageParams;
     }
 
-    public function getPrevPageParams(){
+    public function getPrevPageParams()
+    {
         $nextPageParams = [];
         parse_str($this->getUrlParams($this->getPrevLink()), $nextPageParams);
         return $nextPageParams;

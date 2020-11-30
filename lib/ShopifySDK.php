@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -64,6 +65,7 @@ namespace PHPShopify;
 | $data = $shopify->GraphQL->post($graphQL);
 |
 */
+
 use PHPShopify\Exception\SdkException;
 
 /**
@@ -204,28 +206,9 @@ class ShopifySDK
         'GraphQL'
     );
 
-    /**
-     * @var float microtime of last api call
-     */
-    public static $microtimeOfLastApiCall;
 
-    /**
-     * @var float Minimum gap in seconds to maintain between 2 api calls
-     */
-    public static $timeAllowedForEachApiCall = .5;
 
-    /**
-     * @var string Default Shopify API version
-     */
-    public static $defaultApiVersion = '2020-01';
-
-    /**
-     * Shop / API configurations
-     *
-     * @var array
-     */
-    public static $config = array(
-    );
+    private Config $config;
 
     /**
      * List of resources which are only available through a parent resource
@@ -255,11 +238,9 @@ class ShopifySDK
      *
      * @return void
      */
-    public function __construct($config = array())
+    public function __construct(string $shopUrl, $config = [], $apiVersion = '2020-01')
     {
-        if(!empty($config)) {
-            ShopifySDK::config($config);
-        }
+        $this->config = new Config($shopUrl, $config, $apiVersion);
     }
 
     /**
@@ -305,119 +286,18 @@ class ShopifySDK
         $resourceID = !empty($arguments) ? $arguments[0] : null;
 
         //Initiate the resource object
-        $resource = new $resourceClassName($resourceID);
+        $resource = new $resourceClassName($this, $resourceID);
 
         return $resource;
     }
 
+
+
     /**
-     * Configure the SDK client
-     *
-     * @param array $config
-     *
-     * @return ShopifySDK
+     * Get the value of config
      */
-    public static function config($config)
+    public function getConfig(): Config
     {
-        /**
-         * Reset config to it's initial values
-         */
-        self::$config = array(
-            'ApiVersion' => self::$defaultApiVersion
-        );
-
-        foreach ($config as $key => $value) {
-            self::$config[$key] = $value;
-        }
-
-        //Re-set the admin url if shop url is changed
-        if(isset($config['ShopUrl'])) {
-            self::setAdminUrl();
-        }
-
-        //If want to keep more wait time than .5 seconds for each call
-        if (isset($config['AllowedTimePerCall'])) {
-            static::$timeAllowedForEachApiCall = $config['AllowedTimePerCall'];
-        }
-
-        return new ShopifySDK;
-    }
-
-    /**
-     * Set the admin url, based on the configured shop url
-     *
-     * @return string
-     */
-    public static function setAdminUrl()
-    {
-        $shopUrl = self::$config['ShopUrl'];
-
-        //Remove https:// and trailing slash (if provided)
-        $shopUrl = preg_replace('#^https?://|/$#', '', $shopUrl);
-        $apiVersion = self::$config['ApiVersion'];
-
-        if(isset(self::$config['ApiKey']) && isset(self::$config['Password'])) {
-            $apiKey = self::$config['ApiKey'];
-            $apiPassword = self::$config['Password'];
-            $adminUrl = "https://$apiKey:$apiPassword@$shopUrl/admin/";
-        } else {
-            $adminUrl = "https://$shopUrl/admin/";
-        }
-
-        self::$config['AdminUrl'] = $adminUrl;
-        self::$config['ApiUrl'] = $adminUrl . "api/$apiVersion/";
-
-        return $adminUrl;
-    }
-
-    /**
-     * Get the admin url of the configured shop
-     *
-     * @return string
-     */
-    public static function getAdminUrl() {
-        return self::$config['AdminUrl'];
-    }
-
-    /**
-     * Get the api url of the configured shop
-     *
-     * @return string
-     */
-    public static function getApiUrl() {
-        return self::$config['ApiUrl'];
-    }
-
-    /**
-     * Maintain maximum 2 calls per second to the API
-     *
-     * @see https://help.shopify.com/api/guides/api-call-limit
-     *
-     * @param bool $firstCallWait Whether to maintain the wait time even if it is the first API call
-     */
-    public static function checkApiCallLimit($firstCallWait = false)
-    {
-        $timeToWait = 0;
-        if (static::$microtimeOfLastApiCall == null) {
-            if ($firstCallWait) {
-                $timeToWait = static::$timeAllowedForEachApiCall;
-            }
-        } else {
-            $now = microtime(true);
-            $timeSinceLastCall = $now - static::$microtimeOfLastApiCall;
-            //Ensure 2 API calls per second
-            if($timeSinceLastCall < static::$timeAllowedForEachApiCall) {
-                $timeToWait = static::$timeAllowedForEachApiCall - $timeSinceLastCall;
-            }
-        }
-
-        if ($timeToWait) {
-            //convert time to microseconds
-            $microSecondsToWait = $timeToWait * 1000000;
-            //Wait to maintain the API call difference of .5 seconds
-            usleep($microSecondsToWait);
-        }
-
-        static::$microtimeOfLastApiCall = microtime(true);
+        return $this->config;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -19,13 +20,14 @@ class AuthHelper
      */
     public static function getCurrentUrl()
     {
-        if (isset($_SERVER['HTTPS']) &&
+        if (
+            isset($_SERVER['HTTPS']) &&
             ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
             isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-            $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+            $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
+        ) {
             $protocol = 'https';
-        }
-        else {
+        } else {
             $protocol = 'http';
         }
 
@@ -60,7 +62,7 @@ class AuthHelper
     {
         $data = $_GET;
 
-        if(!isset(ShopifySDK::$config['SharedSecret'])) {
+        if (!isset(ShopifySDK::$config['SharedSecret'])) {
             throw new SdkException("Please provide SharedSecret while configuring the SDK client.");
         }
 
@@ -83,7 +85,7 @@ class AuthHelper
         $realHmac = hash_hmac('sha256', $dataString, $sharedSecret);
 
         //hash the values before comparing (to prevent time attack)
-        if(md5($realHmac) === md5($hmac)) {
+        if (md5($realHmac) === md5($hmac)) {
             return true;
         } else {
             return false;
@@ -108,17 +110,17 @@ class AuthHelper
     {
         $config = ShopifySDK::$config;
 
-        if(!isset($config['ShopUrl']) || !isset($config['ApiKey'])) {
+        if (!isset($config['ShopUrl']) || !isset($config['ApiKey'])) {
             throw new SdkException("ShopUrl and ApiKey are required for authentication request. Please check SDK configuration!");
         }
 
         if (!$redirectUrl) {
-            if(!isset($config['SharedSecret'])) {
+            if (!isset($config['SharedSecret'])) {
                 throw new SdkException("SharedSecret is required for getting access token. Please check SDK configuration!");
             }
 
             //If redirect url is the same as this url, then need to check for access token when redirected back from shopify
-            if(isset($_GET['code'])) {
+            if (isset($_GET['code'])) {
                 return self::getAccessToken($config);
             } else {
                 $redirectUrl = self::getCurrentUrl();
@@ -128,10 +130,10 @@ class AuthHelper
         if (is_array($scopes)) {
             $scopes = join(',', $scopes);
         }
-        if(!empty($state)) {
+        if (!empty($state)) {
             $state = '&state=' . $state;
         }
-        if(!empty($options)) {
+        if (!empty($options)) {
             $options = '&grant_options[]=' . join(',', $options);
         }
         // Official call structure
@@ -157,11 +159,11 @@ class AuthHelper
     {
         $config = ShopifySDK::$config;
 
-        if(!isset($config['SharedSecret']) || !isset($config['ApiKey'])) {
+        if (!isset($config['SharedSecret']) || !isset($config['ApiKey'])) {
             throw new SdkException("SharedSecret and ApiKey are required for getting access token. Please check SDK configuration!");
         }
 
-        if(self::verifyShopifyRequest()) {
+        if (self::verifyShopifyRequest()) {
             $data = array(
                 'client_id' => $config['ApiKey'],
                 'client_secret' => $config['SharedSecret'],

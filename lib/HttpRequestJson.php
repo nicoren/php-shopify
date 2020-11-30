@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -138,5 +139,4 @@ class HttpRequestJson
 
         return json_decode($response, true);
     }
-
 }
