@@ -16,7 +16,7 @@ class GuzzleClient
      *
      * @var \GuzzleHttp\ClientInterface;
      */
-    private $guzzleClient;
+    protected $guzzleClient;
 
     public function __construct(Config $config)
     {

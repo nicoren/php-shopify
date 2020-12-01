@@ -523,6 +523,7 @@ abstract class ShopifyResource
      */
     public function processResponse(\Psr\Http\Message\ResponseInterface $response, $dataKey = null)
     {
+
         $lastResponseHeaders = $response->getHeaders();
 
         $successHttpCodes = [200, 201, 204];
@@ -533,7 +534,6 @@ abstract class ShopifyResource
         if ($httpCode != null && !in_array($httpCode, $successHttpCodes)) {
             throw new Exception\CurlException("Request failed with HTTP Code $httpCode.", $httpCode);
         }
-
 
         $this->getLinks($lastResponseHeaders);
         $responseArray = json_decode($response->getBody(), true);
