@@ -9,6 +9,7 @@ namespace PHPShopify;
 
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\Promise;
 
 class GuzzleClient
 {
@@ -16,7 +17,7 @@ class GuzzleClient
      *
      * @var \GuzzleHttp\ClientInterface;
      */
-    private $guzzleClient;
+    protected $guzzleClient;
 
     public function __construct(Config $config)
     {
@@ -40,11 +41,15 @@ class GuzzleClient
     {
         $urlInfos = parse_url($url);
         $headers = array_merge($httpHeaders, ['Content-type' => 'application/json']);
-        parse_str($urlInfos["query"], $query);
+
         $requestData =  [
-            'headers' => $headers,
-            'query' => $query
+            'headers' => $headers
         ];
+
+        if (!empty($urlInfos["query"])) {
+            parse_str($urlInfos["query"], $query);
+            $requestData['query'] = $query;
+        }
 
         if (!empty($dataArray)) {
             $requestData['json'] = $dataArray;
