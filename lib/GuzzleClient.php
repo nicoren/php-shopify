@@ -21,6 +21,7 @@ class GuzzleClient
 
     public function __construct(Config $config)
     {
+    	usleep(1000);
         $urlInfos = parse_url($config->getApiUrl());
         $this->guzzleClient = new Client([
             'base_uri' => "{$urlInfos["scheme"]}://{$urlInfos["host"]}/",
