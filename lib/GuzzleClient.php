@@ -67,7 +67,7 @@ class GuzzleClient
      */
     public function get(string $url, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
-        $method = __METHOD__;
+        $method = __FUNCTION__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders);
@@ -102,7 +102,7 @@ class GuzzleClient
      */
     public function post($url, $dataArray, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
-        $method = __METHOD__;
+        $method = __FUNCTION__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders, $dataArray);
@@ -121,7 +121,7 @@ class GuzzleClient
      */
     public function put($url, $dataArray, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
-        $method = __METHOD__;
+        $method = __FUNCTION__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders, $dataArray);
@@ -139,7 +139,7 @@ class GuzzleClient
      */
     public function delete($url, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
-        $method = __METHOD__;
+        $method = __FUNCTION__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders);
