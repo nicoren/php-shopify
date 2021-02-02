@@ -21,7 +21,6 @@ class GuzzleClient
 
     public function __construct(Config $config)
     {
-    	usleep(1000);
         $urlInfos = parse_url($config->getApiUrl());
         $this->guzzleClient = new Client([
             'base_uri' => "{$urlInfos["scheme"]}://{$urlInfos["host"]}/",
@@ -68,10 +67,27 @@ class GuzzleClient
      */
     public function get(string $url, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
+        $method = __METHOD__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders);
-        $response = $this->guzzleClient->get($path, $data);
+        $response = $this->send($method, $path, $data);
+        return $response;
+    }
+
+    protected function send($method, $path, $data)
+    {
+        $i = 0;
+        do {
+            if ($i > 0) {
+                usleep(500);
+            }
+            /**
+             * @var \Psr\Http\Message\ResponseInterface $response
+             */
+            $response = $this->guzzleClient->$method($path, $data);
+            $i++;
+        } while ($response->getStatusCode() == 429);
         return $response;
     }
 
@@ -86,10 +102,11 @@ class GuzzleClient
      */
     public function post($url, $dataArray, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
+        $method = __METHOD__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders, $dataArray);
-        $response = $this->guzzleClient->post($path, $data);
+        $response = $this->send($method, $path, $data);
         return $response;
     }
 
@@ -104,10 +121,11 @@ class GuzzleClient
      */
     public function put($url, $dataArray, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
+        $method = __METHOD__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders, $dataArray);
-        $response = $this->guzzleClient->put($path, $data);
+        $response = $this->send($method, $path, $data);
         return $response;
     }
 
@@ -121,10 +139,11 @@ class GuzzleClient
      */
     public function delete($url, $httpHeaders = []): \Psr\Http\Message\ResponseInterface
     {
+        $method = __METHOD__;
         $urlInfos = parse_url($url);
         $path = $urlInfos["path"];
         $data = $this->prepareRequest($url, $httpHeaders);
-        $response = $this->guzzleClient->delete($path, $data);
+        $response = $this->send($method, $path, $data);
         return $response;
     }
 }
