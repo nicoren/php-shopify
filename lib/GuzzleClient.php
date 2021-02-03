@@ -77,17 +77,23 @@ class GuzzleClient
 
     protected function send($method, $path, $data)
     {
-        $i = 0;
+        $status = true;
         do {
-            if ($i > 0) {
+            if (!$status) {
                 usleep(500);
             }
-            /**
-             * @var \Psr\Http\Message\ResponseInterface $response
-             */
-            $response = $this->guzzleClient->$method($path, $data);
-            $i++;
-        } while ($response->getStatusCode() == 429);
+            try {
+                /**
+                 * @var \Psr\Http\Message\ResponseInterface $response
+                 */
+                $response = $this->guzzleClient->$method($path, $data);
+                $status = true;
+            } catch (\Exception $e) {
+                if ($e->getCode() == 429) {
+                    $status = false;
+                }
+            }
+        } while ($status == false);
         return $response;
     }
 
