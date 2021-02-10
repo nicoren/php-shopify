@@ -91,9 +91,12 @@ class GuzzleClient
             } catch (\Exception $e) {
                 if ($e->getCode() == 429) {
                     $status = false;
+                } else {
+                    throw $e;
                 }
             }
         } while ($status == false);
+
         return $response;
     }
 
