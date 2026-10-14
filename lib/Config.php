@@ -31,7 +31,7 @@ class Config
      */
     private array $config;
 
-    public function __construct(string $shopUrl, array $config = [], string $apiVersion)
+    public function __construct(string $shopUrl, array $config, string $apiVersion)
     {
         $this->apiVersion = $apiVersion;
         $this->config = $config;
