@@ -9,10 +9,16 @@ namespace PHPShopify;
 
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\Promise;
 
 class GuzzleClient
 {
+    const CONNECT_TIMEOUT = 10;
+    const TIMEOUT = 120;
+    const MAX_RETRIES = 10;
+    const RETRY_DELAY = 1;
+
     /**
      *
      * @var \GuzzleHttp\ClientInterface;
@@ -24,6 +30,8 @@ class GuzzleClient
         $urlInfos = parse_url($config->getApiUrl());
         $this->guzzleClient = new Client([
             'base_uri' => "{$urlInfos["scheme"]}://{$urlInfos["host"]}/",
+            'connect_timeout' => $config->hasConfig('connect_timeout') ? $config->getConfig('connect_timeout') : static::CONNECT_TIMEOUT,
+            'timeout' => $config->hasConfig('timeout') ? $config->getConfig('timeout') : static::TIMEOUT,
             'handler' => $config->hasConfig('handler') ? $config->getConfig('handler') : null
         ]);
     }
@@ -77,27 +85,26 @@ class GuzzleClient
 
     protected function send($method, $path, $data)
     {
-        $status = true;
-        do {
-            if (!$status) {
-                usleep(500);
-            }
+        $retries = 0;
+        while (true) {
             try {
                 /**
                  * @var \Psr\Http\Message\ResponseInterface $response
                  */
-                $response = $this->guzzleClient->$method($path, $data);
-                $status = true;
+                return $this->guzzleClient->$method($path, $data);
             } catch (\Exception $e) {
-                if ($e->getCode() == 429) {
-                    $status = false;
-                } else {
+                if ($e->getCode() != 429 || $retries >= static::MAX_RETRIES) {
                     throw $e;
                 }
+                $retries++;
+                //wait the delay asked by shopify (leaky bucket) before retrying
+                $delay = static::RETRY_DELAY;
+                if ($e instanceof RequestException && $e->getResponse() && is_numeric($e->getResponse()->getHeaderLine('Retry-After'))) {
+                    $delay = (float) $e->getResponse()->getHeaderLine('Retry-After');
+                }
+                usleep((int) ($delay * 1000000));
             }
-        } while ($status == false);
-
-        return $response;
+        }
     }
 
     /**

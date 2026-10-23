@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.1.1
+
+### Fixes
+
+- `GuzzleClient`: the requests have a timeout (`connect_timeout` 10 s, `timeout` 120 s by default, configurable
+  with the `connect_timeout` and `timeout` keys of the SDK config). Without it a stalled connection blocked forever.
+- `GuzzleClient`: the retry on HTTP 429 is limited to 10 attempts and waits the `Retry-After` delay (1 s by default)
+  instead of 0.5 ms, it could loop forever.
+
 ## 2.1.0
 
 - PHP 8.2 or above (tested with PHP 8.5).
