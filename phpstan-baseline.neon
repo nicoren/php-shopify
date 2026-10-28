@@ -1,0 +1,181 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method PHPShopify\\AuthHelper\:\:buildQueryString\(\) should return array but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: lib/AuthHelper.php
+
+		-
+			message: '#^Parameter \#2 \$data of function hash_hmac expects string, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/AuthHelper.php
+
+		-
+			message: '#^Static access to instance property PHPShopify\\ShopifySDK\:\:\$config\.$#'
+			identifier: property.staticAccess
+			count: 3
+			path: lib/AuthHelper.php
+
+		-
+			message: '#^Static method PHPShopify\\AuthHelper\:\:getAccessToken\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: lib/AuthHelper.php
+
+		-
+			message: '#^Method PHPShopify\\CurlRequest\:\:init\(\) should return resource but returns \(CurlHandle\|false\)\.$#'
+			identifier: return.type
+			count: 1
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_close expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_errno expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 2
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_error expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_exec expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_getinfo expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_setopt expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 5
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^Parameter \#3 \$value of function curl_setopt expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/CurlRequest.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$responseArray$#'
+			identifier: parameter.notFound
+			count: 1
+			path: lib/GraphQL.php
+
+		-
+			message: '#^Parameter \#1 \$graphQL \(string\) of method PHPShopify\\GraphQL\:\:post\(\) should be compatible with parameter \$dataArray \(array\) of method PHPShopify\\ShopifyResource\:\:post\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: lib/GraphQL.php
+
+		-
+			message: '#^Parameter \#2 \$dataArray of method PHPShopify\\GuzzleClientGraphQl\:\:post\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/GraphQL.php
+
+		-
+			message: '#^PHPDoc tag @return with type array is incompatible with native type Psr\\Http\\Message\\ResponseInterface\.$#'
+			identifier: return.phpDocType
+			count: 4
+			path: lib/GuzzleClient.php
+
+		-
+			message: '#^PHPDoc tag @return with type void is incompatible with native type array\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: lib/GuzzleClient.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\\GuzzleHttp\\ClientInterface;\)\: Unexpected token ";", expected TOKEN_HORIZONTAL_WS at offset 50 on line 3$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: lib/GuzzleClient.php
+
+		-
+			message: '#^Variable \$response in PHPDoc tag @var does not exist\.$#'
+			identifier: varTag.variableNotFound
+			count: 1
+			path: lib/GuzzleClient.php
+
+		-
+			message: '#^PHPDoc tag @return with type array is incompatible with native type Psr\\Http\\Message\\ResponseInterface\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: lib/GuzzleClientGraphQl.php
+
+		-
+			message: '#^PHPDoc tag @return with type void is incompatible with native type array\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: lib/GuzzleClientGraphQl.php
+
+		-
+			message: '#^Method PHPShopify\\HttpRequestGraphQL\:\:post\(\) should return string but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: lib/HttpRequestGraphQL.php
+
+		-
+			message: '#^Parameter \#2 \$data of static method PHPShopify\\CurlRequest\:\:post\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/HttpRequestGraphQL.php
+
+		-
+			message: '#^Parameter \#2 \$data of static method PHPShopify\\CurlRequest\:\:post\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/HttpRequestJson.php
+
+		-
+			message: '#^Parameter \#2 \$data of static method PHPShopify\\CurlRequest\:\:put\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: lib/HttpRequestJson.php
+
+		-
+			message: '#^Constructor of class PHPShopify\\Multipass has an unused parameter \$id\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: lib/Multipass.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: lib/ShopifyResource.php
+
+		-
+			message: '#^Method PHPShopify\\ShopifyResource\:\:count\(\) should return int but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: lib/ShopifyResource.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$responseArray$#'
+			identifier: parameter.notFound
+			count: 1
+			path: lib/ShopifyResource.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string\|false and \-1 will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: lib/ShopifyResource.php
