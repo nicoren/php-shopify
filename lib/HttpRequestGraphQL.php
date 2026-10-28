@@ -9,7 +9,6 @@
 
 namespace PHPShopify;
 
-
 use PHPShopify\Exception\SdkException;
 
 class HttpRequestGraphQL extends HttpRequestJson
@@ -32,7 +31,7 @@ class HttpRequestGraphQL extends HttpRequestJson
      *
      * @throws SdkException if $data is not a string
      */
-    protected static function prepareRequest($httpHeaders = array(), $data = array(), $variables = null)
+    protected static function prepareRequest($httpHeaders = [], $data = [], $variables = null)
     {
 
         if (is_string($data)) {
@@ -65,7 +64,7 @@ class HttpRequestGraphQL extends HttpRequestJson
      *
      * @return string
      */
-    public static function post($url, $data, $httpHeaders = array(), $variables = null)
+    public static function post($url, $data, $httpHeaders = [], $variables = null)
     {
         self::prepareRequest($httpHeaders, $data, $variables);
 

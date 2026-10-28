@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -33,10 +33,10 @@ class SmartCollection extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
+    protected $childResource = [
         'Event',
         'Metafield',
-    );
+    ];
 
     /**
      * Set the ordering type and/or the manual order of products in a smart collection
@@ -49,6 +49,6 @@ class SmartCollection extends ShopifyResource
     {
         $url = $this->generateUrl($params, 'order');
 
-        return $this->put(array(), $url);
+        return $this->put([], $url);
     }
 }

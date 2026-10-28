@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -34,7 +34,7 @@ class ProductVariant extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
+    protected $childResource = [
         'Metafield',
-    );
+    ];
 }

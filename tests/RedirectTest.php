@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,21 +8,20 @@
 
 namespace PHPShopify;
 
-
 class RedirectTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
+    public $postArray = [
         "path" => "http://www.apple.com/forums",
         "target" => "http://forums.apple.com",
-    );
+    ];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array(
+    public $putArray = [
         "path" => "/tiger",
-    );
+    ];
 }

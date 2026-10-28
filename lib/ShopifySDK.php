@@ -10,7 +10,6 @@
 
 namespace PHPShopify;
 
-
 /*
 |--------------------------------------------------------------------------
 | Shopify API SDK Client Class
@@ -161,7 +160,7 @@ class ShopifySDK
      *
      * @var string[]
      */
-    protected $resources = array(
+    protected $resources = [
         'AbandonedCheckout',
         'ApplicationCharge',
         'Blog',
@@ -203,8 +202,8 @@ class ShopifySDK
         'Theme',
         'User',
         'Webhook',
-        'GraphQL'
-    );
+        'GraphQL',
+    ];
 
 
 
@@ -215,7 +214,7 @@ class ShopifySDK
      *
      * @var array Array key is the child resource name and array value is the parent resource name
      */
-    protected $childResources = array(
+    protected $childResources = [
         'Article'           => 'Blog',
         'Asset'             => 'Theme',
         'CustomerAddress'   => 'Customer',
@@ -229,7 +228,7 @@ class ShopifySDK
         'Refund'            => 'Order',
         'Transaction'       => 'Order',
         'UsageCharge'       => 'RecurringApplicationCharge',
-    );
+    ];
 
     /*
      * ShopifySDK constructor

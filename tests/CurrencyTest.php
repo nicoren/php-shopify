@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Tareq
@@ -8,8 +9,4 @@
 
 namespace PHPShopify;
 
-
-class CurrencyTest extends TestSimpleResource
-{
-
-}
+class CurrencyTest extends TestSimpleResource {}

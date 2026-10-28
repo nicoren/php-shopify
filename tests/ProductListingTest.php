@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Tareq
@@ -8,8 +9,4 @@
 
 namespace PHPShopify;
 
-
-class ProductListingTest extends TestSimpleResource
-{
-
-}
+class ProductListingTest extends TestSimpleResource {}

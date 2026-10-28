@@ -29,7 +29,7 @@ class Collection extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
+    protected $childResource = [
         'Product',
-    );
+    ];
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Victor Kislichenko <v.kislichenko@gmail.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------

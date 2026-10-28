@@ -9,8 +9,5 @@ class CollectionTest extends TestSimpleResource
      *
      * Post and list not available for Collection resource so testGet not possible
      */
-    public function testGet()
-    {
-
-    }
+    public function testGet() {}
 }

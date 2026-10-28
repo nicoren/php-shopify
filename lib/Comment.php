@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  *
@@ -39,18 +39,18 @@ class Comment extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array (
+    protected $childResource =  [
         'Event',
-    );
+    ];
 
     /**
      * @inheritDoc
      */
-    protected $customPostActions = array(
+    protected $customPostActions = [
         'spam'      =>  'markSpam',
         'not_spam'  =>  'markNotSpam',
-                        'approve',
-                        'remove',
-                        'restore',
-    );
+        'approve',
+        'remove',
+        'restore',
+    ];
 }

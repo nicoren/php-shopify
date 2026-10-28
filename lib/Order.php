@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,8 +9,6 @@
  */
 
 namespace PHPShopify;
-
-
 
 /**
  * --------------------------------------------------------------------------
@@ -47,21 +46,21 @@ class Order extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array (
+    protected $childResource =  [
         'Fulfillment',
         'OrderRisk' => 'Risk',
         'Refund',
         'Transaction',
         'Event',
         'Metafield',
-    );
+    ];
 
     /**
      * @inheritDoc
      */
-    protected $customPostActions = array(
+    protected $customPostActions = [
         'close',
         'open',
         'cancel',
-    );
+    ];
 }

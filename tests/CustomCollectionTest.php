@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,21 +8,20 @@
 
 namespace PHPShopify;
 
-
 class CustomCollectionTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
-        "title" => "Macbooks"
-    );
+    public $postArray = [
+        "title" => "Macbooks",
+    ];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array(
+    public $putArray = [
         "title" => "Updated - Macbooks",
         "body_html" => "<p>The best selling Macbooks ever</p>",
-    );
+    ];
 }

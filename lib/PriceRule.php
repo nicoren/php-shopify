@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Sergiu Cazac <kilobyte2007@gmail.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -29,7 +29,7 @@ class PriceRule extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
-        'DiscountCode'
-    );
+    protected $childResource = [
+        'DiscountCode',
+    ];
 }

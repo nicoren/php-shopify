@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -27,7 +27,7 @@ class Refund extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $customPostActions = array (
+    protected $customPostActions =  [
         'calculate',
-    );
+    ];
 }

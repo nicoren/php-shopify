@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Created on Mon Nov 30 2020
  * @author : Nicolas RENAULT <nrenault@tangkoko.com>
@@ -6,8 +7,6 @@
  */
 
 namespace PHPShopify;
-
-
 
 class GuzzleClientGraphQl extends GuzzleClient
 {
@@ -26,8 +25,8 @@ class GuzzleClientGraphQl extends GuzzleClient
             'headers' => $headers,
             'json' => [
                 'query' => $dataArray,
-                'variables' => $variables
-            ]
+                'variables' => $variables,
+            ],
         ];
         return $requestData;
     }

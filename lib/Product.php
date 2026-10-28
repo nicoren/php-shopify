@@ -10,7 +10,6 @@
 
 namespace PHPShopify;
 
-
 /**
  * --------------------------------------------------------------------------
  * Product -> Child Resources
@@ -36,10 +35,10 @@ class Product extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
+    protected $childResource = [
         'ProductImage' => 'Image',
         'ProductVariant' => 'Variant',
         'Metafield',
-        'Event'
-    );
+        'Event',
+    ];
 }

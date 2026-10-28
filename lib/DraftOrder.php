@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Thomas Hondema <thomashondema@live.com>
@@ -8,8 +9,6 @@
  */
 
 namespace PHPShopify;
-
-
 
 /**
  * --------------------------------------------------------------------------
@@ -29,14 +28,14 @@ class DraftOrder extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $customPostActions = array(
+    protected $customPostActions = [
         'send_invoice',
-    );
+    ];
 
     /**
      * @inheritDoc
      */
-    protected $customPutActions = array(
+    protected $customPutActions = [
         'complete',
-    );
+    ];
 }

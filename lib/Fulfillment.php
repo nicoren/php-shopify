@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -36,16 +36,16 @@ class Fulfillment extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
+    protected $childResource = [
         'FulfillmentEvent' => 'Event',
-    );
+    ];
 
     /**
      * @inheritDoc
      */
-    protected $customPostActions = array(
+    protected $customPostActions = [
         'complete',
         'open',
         'cancel',
-    );
+    ];
 }

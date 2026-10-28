@@ -11,14 +11,12 @@
 
 namespace PHPShopify;
 
-
 use PHPShopify\Exception\ApiException;
 use PHPShopify\Exception\CurlException;
 use PHPShopify\Exception\SdkException;
 
 class GraphQL extends ShopifyResource
 {
-
     protected string $cursor;
 
     protected bool $hasNextPage;
@@ -49,7 +47,9 @@ class GraphQL extends ShopifyResource
      */
     public function post($graphQL, $url = null, $wrapData = false, $variables = null)
     {
-        if (!$url) $url = $this->generateUrl();
+        if (!$url) {
+            $url = $this->generateUrl();
+        }
         $client = new GuzzleClientGraphQl($this->sdk->getConfig());
         $response = $client->post($url, $graphQL, $this->httpHeaders, $variables);
         return $this->processResponse($response);
@@ -59,7 +59,7 @@ class GraphQL extends ShopifyResource
      * @inheritdoc
      * @throws SdkException
      */
-    public function get($urlParams = array(), $url = null, $dataKey = null)
+    public function get($urlParams = [], $url = null, $dataKey = null)
     {
         throw new SdkException("Only POST method is allowed for GraphQL!");
     }
@@ -77,7 +77,7 @@ class GraphQL extends ShopifyResource
      * @inheritdoc
      * @throws SdkException
      */
-    public function delete($urlParams = array(), $url = null)
+    public function delete($urlParams = [], $url = null)
     {
         throw new SdkException("Only POST method is allowed for GraphQL!");
     }
@@ -127,8 +127,8 @@ class GraphQL extends ShopifyResource
             $node = reset($responseArray["data"]);
             if (isset($node["pageInfo"])) {
                 $pageInfo = $node["pageInfo"];
-                $this->hasNextPage = (bool)$pageInfo["hasNextPage"];
-                $this->hasPreviousPage = (bool)$pageInfo["hasPreviousPage"];
+                $this->hasNextPage = (bool) $pageInfo["hasNextPage"];
+                $this->hasPreviousPage = (bool) $pageInfo["hasPreviousPage"];
             }
             if (isset($node["edges"])) {
                 $elements = $node["edges"];

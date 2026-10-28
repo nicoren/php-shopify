@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Tareq
@@ -9,7 +10,6 @@
  */
 
 namespace PHPShopify;
-
 
 class Currency extends ShopifyResource
 {

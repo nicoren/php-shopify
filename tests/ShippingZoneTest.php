@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,8 +8,4 @@
 
 namespace PHPShopify;
 
-
-class ShippingZoneTest extends TestSimpleResource
-{
-
-}
+class ShippingZoneTest extends TestSimpleResource {}

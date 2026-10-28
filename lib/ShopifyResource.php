@@ -13,7 +13,6 @@ namespace PHPShopify;
 use PHPShopify\Exception\ApiException;
 use PHPShopify\Exception\SdkException;
 use PHPShopify\Exception\CurlException;
-use Psr\Http\Message\ResponseInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,7 +140,7 @@ abstract class ShopifyResource
         $config = $sdk->getConfig();
         $this->sdk = $sdk;
 
-        $this->resourceUrl = ($parentResourceUrl ? $parentResourceUrl . '/' :  $config->getApiUrl()) . $this->getResourcePath() . ($this->id ? '/' . $this->id : '');
+        $this->resourceUrl = ($parentResourceUrl ? $parentResourceUrl . '/' : $config->getApiUrl()) . $this->getResourcePath() . ($this->id ? '/' . $this->id : '');
 
         if ($config->hasConfig('AccessToken')) {
             $this->httpHeaders['X-Shopify-Access-Token'] = $config->getConfig('AccessToken');
@@ -207,17 +206,19 @@ abstract class ShopifyResource
 
             return $api;
         } else {
-            $actionMaps = array(
+            $actionMaps = [
                 'post'  =>  'customPostActions',
                 'put'   =>  'customPutActions',
                 'get'   =>  'customGetActions',
                 'delete' =>  'customDeleteActions',
-            );
+            ];
 
             //Get the array key for the action in the actions array
             foreach ($actionMaps as $httpMethod => $actionArrayKey) {
                 $actionKey = array_search($name, $this->$actionArrayKey);
-                if ($actionKey !== false) break;
+                if ($actionKey !== false) {
+                    break;
+                }
             }
 
             if ($actionKey === false) {
@@ -331,12 +332,16 @@ abstract class ShopifyResource
      */
     public function get($urlParams = [], $url = null, $dataKey = null)
     {
-        if (!$url) $url  = $this->generateUrl($urlParams);
+        if (!$url) {
+            $url  = $this->generateUrl($urlParams);
+        }
         $client = new GuzzleClient($this->sdk->getConfig());
 
         $response = $client->get($url, $this->httpHeaders);
 
-        if (!$dataKey) $dataKey = $this->id ? $this->resourceKey : $this->pluralizeKey();
+        if (!$dataKey) {
+            $dataKey = $this->id ? $this->resourceKey : $this->pluralizeKey();
+        }
 
         return $this->processResponse($response, $dataKey);
     }
@@ -380,7 +385,9 @@ abstract class ShopifyResource
             throw new SdkException("Search is not available for " . $this->getResourceName());
         }
 
-        if (!is_array($query)) $query = array('query' => $query);
+        if (!is_array($query)) {
+            $query = ['query' => $query];
+        }
 
         $url = $this->generateUrl($query, 'search');
 
@@ -403,9 +410,13 @@ abstract class ShopifyResource
      */
     public function post($dataArray, $url = null, $wrapData = true)
     {
-        if (!$url) $url = $this->generateUrl();
+        if (!$url) {
+            $url = $this->generateUrl();
+        }
 
-        if ($wrapData && !empty($dataArray)) $dataArray = $this->wrapData($dataArray);
+        if ($wrapData && !empty($dataArray)) {
+            $dataArray = $this->wrapData($dataArray);
+        }
 
         $client = new GuzzleClient($this->sdk->getConfig());
 
@@ -431,9 +442,13 @@ abstract class ShopifyResource
     public function put($dataArray, $url = null, $wrapData = true)
     {
 
-        if (!$url) $url = $this->generateUrl();
+        if (!$url) {
+            $url = $this->generateUrl();
+        }
 
-        if ($wrapData && !empty($dataArray)) $dataArray = $this->wrapData($dataArray);
+        if ($wrapData && !empty($dataArray)) {
+            $dataArray = $this->wrapData($dataArray);
+        }
 
         $client = new GuzzleClient($this->sdk->getConfig());
 
@@ -457,7 +472,9 @@ abstract class ShopifyResource
      */
     public function delete($urlParams = [], $url = null)
     {
-        if (!$url) $url = $this->generateUrl($urlParams);
+        if (!$url) {
+            $url = $this->generateUrl($urlParams);
+        }
 
         $client = new GuzzleClient($this->sdk->getConfig());
 
@@ -476,9 +493,11 @@ abstract class ShopifyResource
      */
     protected function wrapData($dataArray, $dataKey = null)
     {
-        if (!$dataKey) $dataKey = $this->getResourcePostKey();
+        if (!$dataKey) {
+            $dataKey = $this->getResourcePostKey();
+        }
 
-        return array($dataKey => $dataArray);
+        return [$dataKey => $dataArray];
     }
 
     /**
@@ -492,7 +511,9 @@ abstract class ShopifyResource
      */
     protected function castString($array)
     {
-        if (!is_array($array)) return (string) $array;
+        if (!is_array($array)) {
+            return (string) $array;
+        }
 
         $string = '';
         $i = 0;

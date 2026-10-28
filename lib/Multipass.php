@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -9,12 +10,10 @@
 
 namespace PHPShopify;
 
-
 use PHPShopify\Exception\ApiException;
 
 class Multipass extends ShopifyResource
 {
-
     /**
      * Multipass constructor.
      *

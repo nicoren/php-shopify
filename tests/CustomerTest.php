@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,30 +8,30 @@
 
 namespace PHPShopify;
 
-
 class CustomerTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
+    public $postArray = [
         "first_name" => "Steve",
         "last_name" => "Lastnameson",
         "email" => "steve.lastnameson@example.com",
-    );
+    ];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array(
+    public $putArray = [
         "verified_email" => true,
-    );
+    ];
 
     /**
      * @inheritDoc
      * TODO: Shopify count and get result doesn't match, remove this function if that issue is fixed.
      */
-    public function testGet() {
+    public function testGet()
+    {
         $this->assertEquals(1, 1);
     }
 }

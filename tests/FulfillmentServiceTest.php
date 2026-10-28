@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,26 +8,25 @@
 
 namespace PHPShopify;
 
-
 class FulfillmentServiceTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
+    public $postArray = [
         "name" => "MarsFulfillment",
         "callback_url" => "http://google.com",
         "inventory_management" => true,
         "tracking_support" => true,
         "requires_shipping_method" => true,
-        "format" => "json"
-    );
+        "format" => "json",
+    ];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array(
-        "tracking_support" => false
-    );
+    public $putArray = [
+        "tracking_support" => false,
+    ];
 
 }

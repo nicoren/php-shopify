@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,22 +8,21 @@
 
 namespace PHPShopify;
 
-
 class WebhookTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
+    public $postArray = [
         "topic" => "orders/create",
         "address" => "https://whatever.phpclassic.com/",
-        "format" => "json"
-    );
+        "format" => "json",
+    ];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array(
+    public $putArray = [
         "address" => "https://whatsoever.phpclassic.com/",
-    );
+    ];
 }

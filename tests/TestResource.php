@@ -20,11 +20,11 @@ class TestResource extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        $config = array(
+        $config = [
             'ShopUrl' => getenv('SHOPIFY_SHOP_URL'), //Your shop URL
             'ApiKey' => getenv('SHOPIFY_API_KEY'), //Your Private API Key
             'Password' => getenv('SHOPIFY_API_PASSWORD'), //Your Private API Password
-        );
+        ];
 
         self::$shopify = ShopifySDK::config($config);
         ShopifySDK::checkApiCallLimit();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -34,7 +34,7 @@ class Theme extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
-        'Asset'
-    );
+    protected $childResource = [
+        'Asset',
+    ];
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Created on Mon Nov 30 2020
  * @author : Nicolas RENAULT <nrenault@tangkoko.com>
@@ -7,17 +8,15 @@
 
 namespace PHPShopify;
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise\Promise;
 
 class GuzzleClient
 {
-    const CONNECT_TIMEOUT = 10;
-    const TIMEOUT = 120;
-    const MAX_RETRIES = 10;
-    const RETRY_DELAY = 1;
+    public const CONNECT_TIMEOUT = 10;
+    public const TIMEOUT = 120;
+    public const MAX_RETRIES = 10;
+    public const RETRY_DELAY = 1;
 
     /**
      *
@@ -32,7 +31,7 @@ class GuzzleClient
             'base_uri' => "{$urlInfos["scheme"]}://{$urlInfos["host"]}/",
             'connect_timeout' => $config->hasConfig('connect_timeout') ? $config->getConfig('connect_timeout') : static::CONNECT_TIMEOUT,
             'timeout' => $config->hasConfig('timeout') ? $config->getConfig('timeout') : static::TIMEOUT,
-            'handler' => $config->hasConfig('handler') ? $config->getConfig('handler') : null
+            'handler' => $config->hasConfig('handler') ? $config->getConfig('handler') : null,
         ]);
     }
 
@@ -51,7 +50,7 @@ class GuzzleClient
         $headers = array_merge($httpHeaders, ['Content-type' => 'application/json']);
 
         $requestData =  [
-            'headers' => $headers
+            'headers' => $headers,
         ];
 
         if (!empty($urlInfos["query"])) {

@@ -23,7 +23,7 @@ class CurlResponse
         if (\count($response) > 1) {
             // We want the last two parts
             $response = \array_slice($response, -2, 2);
-            list($headers, $body) = $response;
+            [$headers, $body] = $response;
             foreach (\explode("\r\n", $headers) as $header) {
                 $pair = \explode(': ', $header, 2);
                 if (isset($pair[1])) {
@@ -53,7 +53,7 @@ class CurlResponse
      */
     public function getHeader($key)
     {
-        return isset($this->headers[$key]) ? $this->headers[$key] : null;
+        return $this->headers[$key] ?? null;
     }
 
     /**
@@ -67,7 +67,7 @@ class CurlResponse
     public function __toString()
     {
         $body = $this->getBody();
-        $body = $body ? : '';
+        $body = $body ?: '';
 
         return $body;
     }

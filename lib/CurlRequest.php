@@ -8,7 +8,6 @@
 
 namespace PHPShopify;
 
-
 use PHPShopify\Exception\CurlException;
 use PHPShopify\Exception\ResourceRateLimitException;
 
@@ -35,7 +34,7 @@ class CurlRequest
      *
      * @var array
      */
-    public static $lastHttpResponseHeaders = array();
+    public static $lastHttpResponseHeaders = [];
 
     /**
      * Initialize the curl resource
@@ -45,7 +44,7 @@ class CurlRequest
      *
      * @return resource
      */
-    protected static function init($url, $httpHeaders = array())
+    protected static function init($url, $httpHeaders = [])
     {
         // Create Curl resource
         $ch = curl_init();
@@ -59,7 +58,7 @@ class CurlRequest
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'PHPClassic/PHPShopify');
 
-        $headers = array();
+        $headers = [];
         foreach ($httpHeaders as $key => $value) {
             $headers[] = "$key: $value";
         }
@@ -77,7 +76,7 @@ class CurlRequest
      *
      * @return string
      */
-    public static function get($url, $httpHeaders = array())
+    public static function get($url, $httpHeaders = [])
     {
         //Initialize the Curl resource
         $ch = self::init($url, $httpHeaders);
@@ -94,7 +93,7 @@ class CurlRequest
      *
      * @return string
      */
-    public static function post($url, $data, $httpHeaders = array())
+    public static function post($url, $data, $httpHeaders = [])
     {
         $ch = self::init($url, $httpHeaders);
         //Set the request type
@@ -113,7 +112,7 @@ class CurlRequest
      *
      * @return string
      */
-    public static function put($url, $data, $httpHeaders = array())
+    public static function put($url, $data, $httpHeaders = [])
     {
         $ch = self::init($url, $httpHeaders);
         //set the request type
@@ -131,7 +130,7 @@ class CurlRequest
      *
      * @return string
      */
-    public static function delete($url, $httpHeaders = array())
+    public static function delete($url, $httpHeaders = [])
     {
         $ch = self::init($url, $httpHeaders);
         //set the request type

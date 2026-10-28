@@ -20,7 +20,6 @@ namespace PHPShopify;
  */
 class HttpRequestJson
 {
-
     /**
      * HTTP request headers
      *
@@ -44,7 +43,7 @@ class HttpRequestJson
      *
      * @return void
      */
-    protected static function prepareRequest($httpHeaders = array(), $dataArray = array())
+    protected static function prepareRequest($httpHeaders = [], $dataArray = [])
     {
 
         self::$postDataJSON = json_encode($dataArray);
@@ -65,7 +64,7 @@ class HttpRequestJson
      *
      * @return array
      */
-    public static function get($url, $httpHeaders = array())
+    public static function get($url, $httpHeaders = [])
     {
         self::prepareRequest($httpHeaders);
 
@@ -83,7 +82,7 @@ class HttpRequestJson
      *
      * @return array
      */
-    public static function post($url, $dataArray, $httpHeaders = array())
+    public static function post($url, $dataArray, $httpHeaders = [])
     {
         self::prepareRequest($httpHeaders, $dataArray);
 
@@ -101,7 +100,7 @@ class HttpRequestJson
      *
      * @return array
      */
-    public static function put($url, $dataArray, $httpHeaders = array())
+    public static function put($url, $dataArray, $httpHeaders = [])
     {
         self::prepareRequest($httpHeaders, $dataArray);
 
@@ -118,7 +117,7 @@ class HttpRequestJson
      *
      * @return array
      */
-    public static function delete($url, $httpHeaders = array())
+    public static function delete($url, $httpHeaders = [])
     {
         self::prepareRequest($httpHeaders);
 

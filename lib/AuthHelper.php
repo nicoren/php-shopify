@@ -8,7 +8,6 @@
 
 namespace PHPShopify;
 
-
 use PHPShopify\Exception\SdkException;
 
 class AuthHelper
@@ -21,10 +20,10 @@ class AuthHelper
     public static function getCurrentUrl()
     {
         if (
-            isset($_SERVER['HTTPS']) &&
-            ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
-            isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-            $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
+            isset($_SERVER['HTTPS'])
+            && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)
+            || isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
+            && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
         ) {
             $protocol = 'https';
         } else {
@@ -164,15 +163,15 @@ class AuthHelper
         }
 
         if (self::verifyShopifyRequest()) {
-            $data = array(
+            $data = [
                 'client_id' => $config['ApiKey'],
                 'client_secret' => $config['SharedSecret'],
                 'code' => $_GET['code'],
-            );
+            ];
 
             $response = HttpRequestJson::post($config['AdminUrl'] . 'oauth/access_token', $data);
 
-            return isset($response['access_token']) ? $response['access_token'] : null;
+            return $response['access_token'] ?? null;
         } else {
             throw new SdkException("This request is not initiated from a valid shopify shop!");
         }

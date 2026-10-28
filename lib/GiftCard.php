@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -37,11 +37,11 @@ class GiftCard extends ShopifyResource
      */
     public function disable()
     {
-        $url = $this->generateUrl(array(), 'disable');
+        $url = $this->generateUrl([], 'disable');
 
-        $dataArray = array(
+        $dataArray = [
             'id' => $this->id,
-        );
+        ];
 
         return $this->post($dataArray, $url);
     }

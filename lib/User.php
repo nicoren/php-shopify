@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -32,7 +32,7 @@ class User extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $customGetActions = array (
-      'current'
-    );
+    protected $customGetActions =  [
+        'current',
+    ];
 }

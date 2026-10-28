@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -27,9 +27,9 @@ class CustomerAddress extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $customPutActions = array(
+    protected $customPutActions = [
         'default' => 'makeDefault',
-    );
+    ];
 
     /**
      * @inheritDoc
@@ -52,6 +52,6 @@ class CustomerAddress extends ShopifyResource
     {
         $url = $this->generateUrl($params, 'set');
 
-        return $this->put(array(), $url);
+        return $this->put([], $url);
     }
 }

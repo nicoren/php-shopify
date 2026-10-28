@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Sergiu Cazac <kilobyte2007@gmail.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -28,7 +28,7 @@ class DiscountCode extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $customGetActions = array(
+    protected $customGetActions = [
         'lookup',
-    );
+    ];
 }

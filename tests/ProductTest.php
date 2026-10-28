@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,13 +8,12 @@
 
 namespace PHPShopify;
 
-
 class ProductTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
+    public $postArray = [
         "title" => "Burton Custom Freestlye 151",
         "body_html" => "<strong>Good snowboard!</strong>",
         "vendor" => "Burton",
@@ -22,24 +22,24 @@ class ProductTest extends TestSimpleResource
             [
                 "option1" => "First",
                 "price" => "10.00",
-                "sku" => 123
+                "sku" => 123,
             ],
             [
                 "option1" => "Second",
                 "price" => "20.00",
-                "sku" => "123"
-            ]
-        ]
-    );
+                "sku" => "123",
+            ],
+        ],
+    ];
 
     /**
      * @inheritDoc
      * Posting without title, triggers an error
      */
-    public $errorPostArray = array("description" => "A mystery!");
+    public $errorPostArray = ["description" => "A mystery!"];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array("title" => "New product title");
+    public $putArray = ["title" => "New product title"];
 }

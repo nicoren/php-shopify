@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 class ProductListing extends ShopifyResource
 {
@@ -20,7 +20,7 @@ class ProductListing extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $customGetActions = array (
+    protected $customGetActions =  [
         'product_ids' => 'productIds',
-    );
+    ];
 }

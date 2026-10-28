@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,21 +8,20 @@
 
 namespace PHPShopify;
 
-
 class ScriptTagTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
+    public $postArray = [
         "event" => "onload",
         "src" => "https://djavaskripped.org/fancy.js",
-    );
+    ];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array(
+    public $putArray = [
         "src" => "https://somewhere-else.com/another.js",
-    );
+    ];
 }

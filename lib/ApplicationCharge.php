@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 class ApplicationCharge extends ShopifyResource
 {
@@ -21,9 +21,9 @@ class ApplicationCharge extends ShopifyResource
      * @inheritDoc
      */
     public $countEnabled = false;
-    
+
     // To activate ApplicationCharge
-    protected $customPostActions = array(
-       'activate',
-   );
+    protected $customPostActions = [
+        'activate',
+    ];
 }

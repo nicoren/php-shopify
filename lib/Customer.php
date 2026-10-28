@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -8,7 +9,6 @@
  */
 
 namespace PHPShopify;
-
 
 /**
  * --------------------------------------------------------------------------
@@ -29,7 +29,7 @@ class Customer extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $resourceKey ='customer';
+    protected $resourceKey = 'customer';
 
     /**
      * @inheritDoc
@@ -39,11 +39,11 @@ class Customer extends ShopifyResource
     /**
      * @inheritDoc
      */
-    protected $childResource = array(
+    protected $childResource = [
         'CustomerAddress' => 'Address',
         'Metafield',
-        'Order'
-    );
+        'Order',
+    ];
 
     /**
      * Sends an account invite to a customer.
@@ -52,10 +52,12 @@ class Customer extends ShopifyResource
      *
      * @return array
      */
-    public function send_invite($customer_invite = array())
+    public function send_invite($customer_invite = [])
     {
-        if (empty ( $customer_invite ) ) $customer_invite = new \stdClass();
-        $url = $this->generateUrl(array(), 'send_invite');
+        if (empty($customer_invite)) {
+            $customer_invite = new \stdClass();
+        }
+        $url = $this->generateUrl([], 'send_invite');
         $dataArray = $this->wrapData($customer_invite, 'customer_invite');
 
         return $this->post($dataArray, $url, false);

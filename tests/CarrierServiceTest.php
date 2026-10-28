@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -7,23 +8,22 @@
 
 namespace PHPShopify;
 
-
 class CarrierServiceTest extends TestSimpleResource
 {
     /**
      * @inheritDoc
      */
-    public $postArray = array(
+    public $postArray = [
         "name" => "Shipping Rate Provider",
         "callback_url" => "http://shippingrateprovider.com",
-        "service_discovery" => true
-    );
+        "service_discovery" => true,
+    ];
 
     /**
      * @inheritDoc
      */
-    public $putArray = array(
+    public $putArray = [
         "name" => "Updated Shipping Rate Provider",
         "active" => false,
-    );
+    ];
 }

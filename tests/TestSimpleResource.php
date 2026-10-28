@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Tareq Mahmood <tareqtms@yahoo.com>
@@ -9,7 +10,6 @@ namespace PHPShopify;
 
 class TestSimpleResource extends TestResource
 {
-
     /**
      * @var string Resource name
      */
@@ -67,10 +67,10 @@ class TestSimpleResource extends TestResource
 
         $this->assertTrue(is_array($result));
         //Data posted, so cannot be empty
-        if($this->postArray) {
+        if ($this->postArray) {
             $this->assertNotEmpty($result);
         }
-        if($resource->countEnabled) {
+        if ($resource->countEnabled) {
             //Count should match the result array count
             $count = static::$shopify->{$this->resourceName}->count();
             $this->assertEquals($count, count($result));
@@ -104,7 +104,7 @@ class TestSimpleResource extends TestResource
             $result = static::$shopify->{$this->resourceName}($id)->put($this->putArray);
             $this->assertTrue(is_array($result));
             $this->assertNotEmpty($result);
-            foreach($this->putArray as $key => $value) {
+            foreach ($this->putArray as $key => $value) {
                 $this->assertEquals($value, $result[$key]);
             }
         }
@@ -123,7 +123,8 @@ class TestSimpleResource extends TestResource
         }
     }
 
-    public function testPostError() {
+    public function testPostError()
+    {
         if ($this->errorPostArray) {
             $this->expectException('PHPShopify\\Exception\\ApiException');
             static::$shopify->{$this->resourceName}->post($this->errorPostArray);
